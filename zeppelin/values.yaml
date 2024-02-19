@@ -117,6 +117,7 @@ additionalVolumes: []
   # - name: cache
   #   emptyDir: {}
 
+# notebookPeristence -- create pvc to store notebooks
 notebookPeristence:
   annotations: {}
   enabled: false
@@ -129,3 +130,6 @@ notebookPeristence:
   # If PersistentDisk already exists you can create a PV for it by including the 2 following keypairs.
   # pdName: nexus-data-disk
   # fsType: ext4
+
+  # extraContainers -- Launch additional containers into zeppelin pod
+  extraContainers: []
