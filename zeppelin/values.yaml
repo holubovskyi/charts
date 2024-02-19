@@ -106,3 +106,26 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+# additionalVolumeMounts -- additional volume mounts
+additionalVolumeMounts: []
+  # - name: cache
+  #   mountPath: /data
+
+# additionalVolumes -- additional volumes
+additionalVolumes: []
+  # - name: cache
+  #   emptyDir: {}
+
+notebookPeristence:
+  annotations: {}
+  enabled: false
+  accessMode: ReadWriteOnce
+  storageClass: null
+  storageSize: 1Gi
+  # existingClaim:
+  # annotations:
+  #  "helm.sh/resource-policy": keep
+  # If PersistentDisk already exists you can create a PV for it by including the 2 following keypairs.
+  # pdName: nexus-data-disk
+  # fsType: ext4
