@@ -82,7 +82,14 @@ spec:
           tcpSocket:
             port: http
           periodSeconds: 30
-
+        volumeMounts:
+        {{- if .Values.notebookPeristence.enabled }}
+        - mountPath: /opt/zeppelin/notebook/persistent
+          name: {{ include "zeppelin.fullname" . }}-notebook
+        {{- end }}
+        {{- if .Values.additionalVolumeMounts }}
+          {{ toYaml .Values.additionalVolumeMounts | nindent 10 }}
+        {{- end }}
       # volumeMounts:
       #  - name: zeppelin-server-notebook-volume     # configure this to persist notebook
       #    mountPath: /zeppelin/notebook
@@ -91,6 +98,15 @@ spec:
       #  - name: zeppelin-server-custom-k8s          # configure this to mount customized Kubernetes spec for interpreter
       #    mountPath: /zeppelin/k8s
 
+      volumes:
+      - name: {{ include "zeppelin.fullname" . }}-notebook
+        {{- if .Values.notebookPeristence.enabled }}
+        persistentVolumeClaim:
+          claimName: {{ .Values.notebookPeristence.existingClaim | default (printf "%s-%s" (include "zeppelin.fullname" .) "notebook") }}
+        {{- end }}
+      {{- if .Values.additionalVolumes }}
+        {{ toYaml .Values.additionalVolumes | nindent 8}}
+      {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
