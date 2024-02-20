@@ -83,9 +83,9 @@ spec:
             port: http
           periodSeconds: 30
         volumeMounts:
-          {{- if .Values.notebookPeristence.enabled }}
-          - mountPath: /opt/zeppelin/notebook/persistent
-            name: {{ include "zeppelin.fullname" . }}-notebook
+          {{- if .Values.persistence.enabled }}
+          - mountPath: {{ .Values.persistence.mountPath }}
+            name: {{ include "zeppelin.fullname" . }}-data
           {{- end }}
           {{- with .Values.additionalVolumeMounts }}
             {{- tpl (toYaml .) $ | nindent 10 -}}
@@ -94,10 +94,10 @@ spec:
         {{- toYaml .Values.extraContainers | nindent 6 }}
       {{- end }}
       volumes:
-        - name: {{ include "zeppelin.fullname" . }}-notebook
-          {{- if .Values.notebookPeristence.enabled }}
+        - name: {{ include "zeppelin.fullname" . }}-data
+          {{- if .Values.persistence.enabled }}
           persistentVolumeClaim:
-            claimName: {{ .Values.notebookPeristence.existingClaim | default (printf "%s-%s" (include "zeppelin.fullname" .) "notebook") }}
+            claimName: {{ .Values.persistence.existingClaim | default (printf "%s-%s" (include "zeppelin.fullname" .) "data") }}
           {{- end }}
         {{- with .Values.additionalVolumes }}
           {{- tpl (toYaml .) $ | nindent 8 -}}
