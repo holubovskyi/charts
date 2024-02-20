@@ -1,25 +1,25 @@
-{{- if and .Values.notebookPeristence.enabled (not .Values.notebookPeristence.existingClaim) }}
+{{- if and .Values.persistence.enabled (not .Values.persistence.existingClaim) }}
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: {{ include "zeppelin.fullname" . }}-notebook
+  name: {{ include "zeppelin.fullname" . }}-data
   labels:
 {{- include "zeppelin.labels" . | nindent 4 }}
-{{- if .Values.notebookPeristence.annotations }}
+{{- if .Values.persistence.annotations }}
   annotations:
-{{ toYaml .Values.notebookPeristence.annotations | indent 4 }}
+{{ toYaml .Values.persistence.annotations | indent 4 }}
 {{- end }}
 spec:
   accessModes:
-    - {{ .Values.notebookPeristence.accessMode | quote }}
+    - {{ .Values.persistence.accessMode | quote }}
   resources:
     requests:
-      storage: {{ .Values.notebookPeristence.storageSize | quote }}
-{{- if .Values.notebookPeristence.storageClass }}
-{{- if (eq "-" .Values.notebookPeristence.storageClass) }}
+      storage: {{ .Values.persistence.storageSize | quote }}
+{{- if .Values.persistence.storageClass }}
+{{- if (eq "-" .Values.persistence.storageClass) }}
   storageClassName: ""
 {{- else }}
-  storageClassName: "{{ .Values.notebookPeristence.storageClass }}"
+  storageClassName: "{{ .Values.persistence.storageClass }}"
 {{- end }}
 {{- end }}
 {{- end }}

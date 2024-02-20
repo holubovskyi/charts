@@ -117,13 +117,14 @@ additionalVolumes: []
   # - name: cache
   #   emptyDir: {}
 
-# notebookPeristence -- create pvc to store notebooks
-notebookPeristence:
+# persistence -- create pvc to store data
+persistence:
   annotations: {}
   enabled: false
   accessMode: ReadWriteOnce
   storageClass: null
   storageSize: 1Gi
+  mountPath: /data
   # existingClaim:
   # annotations:
   #  "helm.sh/resource-policy": keep
