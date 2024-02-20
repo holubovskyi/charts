@@ -132,5 +132,15 @@ persistence:
   # pdName: nexus-data-disk
   # fsType: ext4
 
-  # extraContainers -- Launch additional containers into zeppelin pod
-  extraContainers: []
+# extraContainers -- Launch additional containers into zeppelin pod
+extraContainers: []
+
+# initContainers -- Add init containers
+initContainers: []
+#  - name: fix-volume-permission
+#    image: busybox
+#    imagePullPolicy: IfNotPresent
+#    command: ['chown','-R', '200', '/data']
+#    volumeMounts:
+#      - name: data
+#        mountPath: /data
